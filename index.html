@@ -1,14 +1,34 @@
-<!DOCTYPE html>
-<html lang="en">
-	<head>
-		<meta charset="utf-8">
-		<title>Budget</title>
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
-		<link rel="stylesheet" href="style.css">
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
-		<script src="script.js"></script>
-	</head>
-	<body>
-        <h1 class="title">Overblik</h1>
-	</body>
+<html>
+    <head>
+        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+        <link href="css/ripples.min.css" rel="stylesheet">
+        <link href="css/material-wfont.min.css" rel="stylesheet">
+        <link href="css/animate.css" rel="stylesheet">
+        <title>Budget stuff</title>
+    </head>
+    <body>
+        <h1>Budget</h1>
+        <div class="container">
+        <table class="table table-striped table-hover ">
+            <thead>
+            <tr>
+            <th>Column heading</th>
+            <th>Column heading</th>
+            <th>Column heading</th>
+        </tr>
+            </thead>
+        </table>
+        </div>
+        <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
+		<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
+		<script src="js/ripples.min.js"></script>
+		
+		<script src="js/material.min.js"></script>
+        <script>
+            $(document).ready(function() {
+                $.material.init();
+            });
+        </script>
+    </body>
 </html>
