@@ -3,4 +3,10 @@
     text-align: center;
 }
 
+.tableheader {
+    font-weight: bold;
+}
 
+#add-button {
+    float: right;
+}
