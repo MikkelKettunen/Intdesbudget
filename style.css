@@ -10,3 +10,12 @@
 #add-button {
     float: right;
 }
+
+#modal-error {
+    float: left;
+    color: red;
+}
+
+.finish-part {
+    color: green;
+}
