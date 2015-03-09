@@ -26,3 +26,14 @@
     border-collapse: separate;
     border-top: 2px solid black;
 }
+
+.progress {
+    height: 15px;   
+}
+
+.progress span {
+    position: absolute;
+    display: block;
+    width: 100%;
+    color: black;
+}

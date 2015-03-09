@@ -71,6 +71,7 @@
         // opdater progress bar 
         var progress = (wizardPage-1)*(1/3)*100;
         $(".progress-bar").width(progress+"%");
+        $(".progress-bar-text").text((wizardPage-1) + "/3");
     }
     
     
@@ -94,37 +95,44 @@
         {
             postName: "Indboforsikring",
             explanation: "En indboforsikring er en forsikring, der dækker dine ting.",
-            average: "Andre bruger gennemsnitligt 1800 kr. årligt på indboforsikringer."
+            average: "Andre bruger gennemsnitligt 1800 kr. årligt på indboforsikringer.",
+            custom: false
         },
         {
             postName: "Kaskoforsikring",
             explanation: "En kaskoforsikring dækker din bil hvis den går i stykker",
             average: "Andre bruger gennemsnitligt 7000 kr. årligt på kaskoforsikring",
+            custom: false
         },
         {
             postName: "Mad",
             explanation: "",
-            average: "Andre bruger gennemsnitligt 1572 kr. månedligt på mad."
+            average: "Andre bruger gennemsnitligt 1572 kr. månedligt på mad.",
+            custom: false
         },
         {
             postName: "Motionscenter",
             explanation: "",
-            average: "Andre bruger gennemsnitligt 150 kr. månedligt på fitnesscenter."
+            average: "Andre bruger gennemsnitligt 150 kr. månedligt på fitnesscenter.",
+            custom: false
         },
         {
             postName: "Husleje",
             explanation: "",
-            average: "Andre bruger gennemsnitligt 3000 kr. månedligt på husleje."
+            average: "Andre bruger gennemsnitligt 3000 kr. månedligt på husleje.",
+            custom: false
         },
         {
             postName: "Medielicens",
             explanation: "Hvis du ejer et elektronisk produkt skal du betale medielicens til DR",
-            average: "Medielicens koster 1230 kr. hver halve år eller 205 kroner om måneden"
+            average: "Medielicens koster 1230 kr. hver halve år eller 205 kroner om måneden",
+            custom: false
         },
         {
             postName: "Selvvalgt",
             explanation: "Skriv din udgift til højre",
-            average: ""
+            average: "",
+            custom: true
         }
     ];
     
@@ -144,8 +152,20 @@
             var expense = window.interface.expenses[i];
             $("#select-post").append("<option>" + expense.postName + "</option>");
         }
-        
         $("#select-post").trigger("onchange");
+        
+        if (window.interface.addPost.post) {
+            if (!window.interface.addPost.post.custom) {
+                $("#select-post").val(window.interface.addPost.post.postName);
+                $("#selected-info").html(window.interface.addPost.post.explanation);
+            } else {
+                $("#select-post-custom").show();
+                $("#select-post-custom").val(window.interface.addPost.post.postName);
+                // hardcoded.. :(
+                $("#select-post").val("Selvvalgt");
+                $("#selected-info").html(window.interface.addPost.post.explanation); 
+            }
+        }
     };
     
     window.interface.page1finished = function() {
@@ -154,8 +174,9 @@
         if (expense.postName === "Selvvalgt") {
             window.interface.addPost.post = {
                 postName: $("#select-post-custom").val(),
-                explanation: "",
-                average: ""
+                explanation: expense.explanation,
+                average: "",
+                custom: true
             };
         }
         else {
@@ -171,6 +192,10 @@
         });
         date.datepicker("option", "dateFormat", "dd-mm-yy");
         date.datepicker("setDate", new Date());
+        
+        if (window.interface.addPost.startDate) {
+            date.datepicker("setDate", new Date(window.interface.addPost.startDate));
+        } 
     };
     
     window.interface.page2finished = function() {        
@@ -179,6 +204,10 @@
     
     window.interface.page3loaded = function() {
         $("#selected-average").html(window.interface.addPost.post.average);
+        if (window.interface.addPost.amount) {
+            $("#input-amount").val(window.interface.addPost.amount);
+            $("#select-interval").val(window.interface.addPost.interval);
+        }
     };
     
     window.interface.page3finished = function() {        
@@ -188,7 +217,6 @@
         
         var select = $("#select-interval")[0];
         window.interface.addPost.interval = select.options[select.selectedIndex].value;
-        
         window.interface.addPost.amount = value;
     };
     
