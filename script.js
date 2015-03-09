@@ -5,10 +5,18 @@
     function wizardPageExists(page) {
         return $("#add-wizard-page" + page).length !== 0;
     }
+    function updateTotal(post) {
+        var latest = Number($("#total").text());
+       $("#total").text(latest - Number(post.amount));
+    }
     
     function addPost(post) {
-        $("#budget-body").append("<tr><td>" + post.post.postName + "</td><td>" + post.amount + "</td><td>" + formatDate(post.startDate) + "</td></tr>");
+        $("#udgifter").closest("tr").after("<tr><td>" + post.post.postName + "</td><td>" + post.amount + "</td><td>" + formatDate(post.startDate) + "</td></tr>");
+        //$("#budget-body").append("<tr><td>" + post.post.postName + "</td><td>" + post.amount + "</td><td>" + formatDate(post.startDate) + "</td></tr>");
+        updateTotal(post);
     }
+
+    
     
     function updateWizardPage(callFinished) {
         if (callFinished) {

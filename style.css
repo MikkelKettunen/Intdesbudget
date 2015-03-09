@@ -1,6 +1,8 @@
 
 .title {
     text-align: center;
+    font-family: "roboto";
+    font-weight: 400;
 }
 
 .tableheader {
@@ -18,4 +20,9 @@
 
 .finish-part {
     color: green;
+}
+
+.total{
+    border-collapse: separate;
+    border-top: 2px solid black;
 }
