@@ -17,8 +17,9 @@
     }
 
     
-    
-    function updateWizardPage(callFinished) {
+    // previous will be set to true if we're going back
+    function updateWizardPage(callFinished, previous) {
+        previous = !!previous;
         if (callFinished) {
             var pageFinished = "page" + wizardPage + "finished";
             if (pageFinished in window.interface) {
@@ -31,14 +32,18 @@
         }
         
         // Var det her sidste side?
-        if (!wizardPageExists(wizardPage + 1)) {
+        if (!wizardPageExists(wizardPage + 1) && !previous) {
             addPost(window.interface.addPost);
             $("#wizard-modal").modal("hide");
             return;
         }
         
         $("#modal-error").text("");
-        wizardPage++;
+        if (previous)
+            wizardPage--;
+        else 
+            wizardPage++;
+        
         var templ = $("#add-wizard-page" + wizardPage);
         $("#wizard-modal .modal-body").html(templ.html());
         $("#wizard-modal .modal-title").html(templ.attr("data-title"));
@@ -51,11 +56,23 @@
         else {
             $("#wizard-next span").removeClass("glyphicon-ok glyphicon-circle-arrow-right").addClass("glyphicon-circle-arrow-right");
         }
+        
+        // vi kan ikke gå tilbage hvis vi er på sidste side
+        if (!wizardPageExists(wizardPage-1)) {
+            $("#wizard-prev").hide();
+        } else {
+            $("#wizard-prev").show();
+        }
 
         var pageOnloaded = "page" + wizardPage + "loaded";
         if (pageOnloaded in window.interface)
             window.interface[pageOnloaded]();
+        
+        // opdater progress bar 
+        var progress = (wizardPage-1)*(1/3)*100;
+        $(".progress-bar").width(progress+"%");
     }
+    
     
     $("#wizard-modal").on("show.bs.modal", function(e) {
         window.interface.addPost = {};
@@ -65,6 +82,10 @@
     
     $("#wizard-next").click(function() {
         updateWizardPage(true);
+    });
+    
+    $("#wizard-prev").click(function() {
+        updateWizardPage(false, true);
     });
     
     window.interface = {};
