@@ -2,13 +2,13 @@
 <html lang="en">
     <head>
         <meta charset="utf-8">
-        <link href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
-        <link rel="stylesheet" href="//code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
+        <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="http://code.jquery.com/ui/1.11.3/themes/smoothness/jquery-ui.css">
         <link href="css/ripples.min.css" rel="stylesheet">
         <link href="css/material-wfont.min.css" rel="stylesheet">
         <link href="css/animate.css" rel="stylesheet">
         <link href="style.css" rel="stylesheet">
-        <title>Budget stuff</title>
+        <title>Budgetværktøj</title>
     </head>
     <body>
 		<!-- Wizard sider og titler-->
@@ -17,9 +17,8 @@
                 <div style="margin-bottom: 10px">
                     Udgift:
                     <select id="select-post" onchange="interface.onSelectedType(this);">
-                        <option data-info="En indboforsikring er en forsikring, der dækker dine ting.">Indboforsikring</option>
-                        <option data-info="En gennemsnitlig studerende bruger 1500 kroner om måneden på mad">Mad</option>
                     </select>
+                    <input type="text" id="select-post-custom" style="margin-left: 10 px; display: none;"></input>
                 </div>
                 <div>
                     <span class="glyphicon glyphicon-info-sign" style="margin-right: 10px"></span><span id="selected-info"></span>
@@ -33,8 +32,13 @@
                     Dato:
                     <input type="text" id="input-date" style="line-height: inherit" size="10" />
                 </div>
-                <div>
-                    Interval:
+            </form>
+        </script>
+    
+        <script id="add-wizard-page3" type="text/template" data-title="Hvor meget betales der?">
+            <form onsubmit="return false;">
+                <div style="margin-bottom: 10px">
+                    <input id="input-amount" type="number" style="width: 75px" /> kr.
                     <select id="select-interval">
                         <option value="yearly">Årligt</option>
                         <option value="halfyearly">Halvårligt</option>
@@ -44,13 +48,8 @@
                         <option value="once">En gang</option>
                     </select>
                 </div>
-            </form>
-        </script>
-    
-        <script id="add-wizard-page3" type="text/template" data-title="Hvor meget betales der?">
-            <form onsubmit="return false;">
                 <div>
-                    <input id="input-amount" type="number" style="width: 75px" /> kr.
+                    <span class="glyphicon glyphicon-info-sign" style="margin-right: 10px"></span><span id="selected-average"></span>
                 </div>
             </form>
         </script>
@@ -110,9 +109,9 @@
           </div>
         </div>
        
-        <script src="//code.jquery.com/jquery-1.10.2.min.js"></script>
-        <script src="//code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
-		<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <script src="http://code.jquery.com/jquery-1.10.2.min.js"></script>
+        <script src="http://code.jquery.com/ui/1.11.3/jquery-ui.js"></script>
+		<script src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
 
 		<script src="js/ripples.min.js"></script>
 		

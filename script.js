@@ -7,7 +7,7 @@
     }
     
     function addPost(post) {
-        $("#budget-body").append("<tr><td>" + post.post + "</td><td>" + post.amount + "</td><td>" + formatDate(post.startDate) + "</td></tr>");
+        $("#budget-body").append("<tr><td>" + post.post.postName + "</td><td>" + post.amount + "</td><td>" + formatDate(post.startDate) + "</td></tr>");
     }
     
     function updateWizardPage(callFinished) {
@@ -61,49 +61,110 @@
     
     window.interface = {};
     
+    window.interface.expenses = [
+        {
+            postName: "Indboforsikring",
+            explanation: "En indboforsikring er en forsikring, der dækker dine ting.",
+            average: "Andre bruger gennemsnitligt 1800 kr. årligt på indboforsikringer."
+        },
+        {
+            postName: "Kaskoforsikring",
+            explanation: "En kaskoforsikring dækker din bil hvis den går i stykker",
+            average: "Andre bruger gennemsnitligt 7000 kr. årligt på kaskoforsikring",
+        },
+        {
+            postName: "Mad",
+            explanation: "",
+            average: "Andre bruger gennemsnitligt 1572 kr. månedligt på mad."
+        },
+        {
+            postName: "Motionscenter",
+            explanation: "",
+            average: "Andre bruger gennemsnitligt 150 kr. månedligt på fitnesscenter."
+        },
+        {
+            postName: "Husleje",
+            explanation: "",
+            average: "Andre bruger gennemsnitligt 3000 kr. månedligt på husleje."
+        },
+        {
+            postName: "Medielicens",
+            explanation: "Hvis du ejer et elektronisk produkt skal du betale medielicens til DR",
+            average: "Medielicens koster 1230 kr. hver halve år eller 205 kroner om måneden"
+        },
+        {
+            postName: "Selvvalgt",
+            explanation: "Skriv din udgift til højre",
+            average: ""
+        }
+    ];
+    
     window.interface.onSelectedType = function(select) {
-        var selected = select.options[select.selectedIndex];
-        $("#selected-info").html($(selected).attr("data-info"));
+        var selected = window.interface.expenses[select.selectedIndex];
+        $("#selected-info").html(selected.explanation);
+        
+        if (selected.postName === "Selvvalgt")
+            $("#select-post-custom").show();
+        else
+            $("#select-post-custom").hide();
     };
     
     window.interface.page1loaded = function() {
+        $("#select-post").empty();
+        for (var i = 0; i < window.interface.expenses.length; i++) {
+            var expense = window.interface.expenses[i];
+            $("#select-post").append("<option>" + expense.postName + "</option>");
+        }
+        
         $("#select-post").trigger("onchange");
     };
     
     window.interface.page1finished = function() {
         var select = $("#select-post")[0];
-        window.interface.addPost.post = select.options[select.selectedIndex].text;
+        var expense = window.interface.expenses[select.selectedIndex];
+        if (expense.postName === "Selvvalgt") {
+            window.interface.addPost.post = {
+                postName: $("#select-post-custom").val(),
+                explanation: "",
+                average: ""
+            };
+        }
+        else {
+            window.interface.addPost.post = expense;
+        }
     };
     
     window.interface.page2loaded = function() {
         var date = $("#input-date");
         date.datepicker({
             showOn: "button",
-            buttonImage: "//jqueryui.com/resources/demos/datepicker/images/calendar.gif",
+            buttonImage: "http://jqueryui.com/resources/demos/datepicker/images/calendar.gif",
         });
         date.datepicker("option", "dateFormat", "dd-mm-yy");
         date.datepicker("setDate", new Date());
     };
     
-    window.interface.page2finished = function() {
-        var select = $("#select-interval")[0];
-        window.interface.addPost.interval = select.options[select.selectedIndex].value;
-        console.log(window.interface.addPost.interval);
-        
+    window.interface.page2finished = function() {        
         window.interface.addPost.startDate = $("#input-date").datepicker("getDate");
     };
     
-    window.interface.page3finished = function() {
+    window.interface.page3loaded = function() {
+        $("#selected-average").html(window.interface.addPost.post.average);
+    };
+    
+    window.interface.page3finished = function() {        
         var value = $("#input-amount").val();
         if (!value || value.length == 0)
             return "Indtast et beløb";
         
+        var select = $("#select-interval")[0];
+        window.interface.addPost.interval = select.options[select.selectedIndex].value;
+        
         window.interface.addPost.amount = value;
-        console.log(window.interface.addPost.amount);
     };
     
     window.interface.page4loaded = function() {
-        $("#finish-post").text(window.interface.addPost.post);
+        $("#finish-post").text(window.interface.addPost.post.postName);
         
         var betalingsIntervaller = {
             "yearly": "årlig betaling",
