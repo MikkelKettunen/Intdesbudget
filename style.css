@@ -37,3 +37,8 @@
     width: 100%;
     color: black;
 }
+.container {
+    -moz-box-shadow: 0 0 3px black;
+    -webkit-box-shadow: 0 0 3px black;
+    box-shadow: 0 0 3px black;
+}
