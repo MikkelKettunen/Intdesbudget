@@ -41,4 +41,5 @@
     -moz-box-shadow: 0 0 3px black;
     -webkit-box-shadow: 0 0 3px black;
     box-shadow: 0 0 3px black;
+    padding: 30px;
 }
