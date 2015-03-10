@@ -6,13 +6,24 @@
         return $("#add-wizard-page" + page).length !== 0;
     }
     function updateTotal(post) {
+        if (post.startDate.getMonth() != new Date().getMonth())
+            return;
+        
         var latest = Number($("#total").text());
        $("#total").text(latest - Number(post.amount));
     }
     
     function addPost(post) {
-        $("#udgifter").closest("tr").after("<tr><td>" + post.post.postName + "</td><td>" + post.amount + "</td><td>" + formatDate(post.startDate) + "</td></tr>");
-        //$("#budget-body").append("<tr><td>" + post.post.postName + "</td><td>" + post.amount + "</td><td>" + formatDate(post.startDate) + "</td></tr>");
+        var html = "<tr><td>" + post.post.postName + "</td>";
+        if (post.startDate.getMonth() != new Date().getMonth())
+            html += "<td><span title=\"Medregnes ikke for denne måned\">" + post.amount + " (*)</span></td>";
+        else
+            html += "<td>" + post.amount + "</td>";
+        
+        html += "<td>" + formatDate(post.startDate) + "</td><td>" + formatInterval(post.interval) + "</td></tr>";
+        
+        $("#udgifter").closest("tr").after(html);
+
         updateTotal(post);
     }
 
@@ -274,5 +285,18 @@
         
         var formatted = date.getDate() + ". " + monthNames[date.getMonth()] + " " + date.getFullYear();
         return formatted;
+    }
+    
+    function formatInterval(interval) {
+        var pretty = {
+            "yearly": "Årligt",
+            "halfyearly": "Halvårligt",
+            "every4months": "Hver 4. måned",
+            "quarterly": "Kvartalvist",
+            "monthly": "Månedligt",
+            "once": "Engangsbetaling"
+        };
+        
+        return pretty[interval];
     }
 })();
