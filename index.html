@@ -33,12 +33,12 @@
             <form onsubmit="return false;">
                 <div style="margin-bottom: 10px">
                     Udgift:
-                    <select id="select-post" onchange="interface.onSelectedType(this);">
+                    <select id="select-post" onchange="interface.onSelectedType(this);" onkeypress="interface.onKeyPress(event);">
                     </select>
-                    <input type="text" id="select-post-custom" style="margin-left: 10 px; display: none;"></input>
+                    <input type="text" id="select-post-custom" style="margin-left: 10 px; display: none;" onkeypress="interface.onKeyPress(event);"></input>
                 </div>
                 <div>
-                    </span><span id="selected-info">
+                    <span class="glyphicon glyphicon-info-sign" style="margin-right: 10px"></span><span id="selected-info"></span>
                 </div>
             </form>
         </script>
@@ -47,7 +47,7 @@
             <form id="form-page2" onsubmit="return false;">
                 <div style="margin-bottom: 10px">
                     Dato:
-                    <input type="text" id="input-date" style="line-height: inherit" size="10" />
+                    <input type="text" id="input-date" style="line-height: inherit" size="10" onkeypress="interface.onKeyPress(event);" />
                 </div>
             </form>
         </script>
@@ -55,8 +55,8 @@
         <script id="add-wizard-page3" type="text/template" data-title="Hvor meget betales der?">
             <form onsubmit="return false;">
                 <div style="margin-bottom: 10px">
-                    <input id="input-amount" type="number" style="width: 75px" /> kr.
-                    <select id="select-interval">
+                    <input id="input-amount" type="number" style="width: 75px" onkeypress="interface.onKeyPress(event);" /> kr.
+                    <select id="select-interval" onkeypress="interface.onKeyPress(event);">
                         <option value="yearly">Årligt</option>
                         <option value="halfyearly">Halvårligt</option>
                         <option value="every4months">Hver 4. måned</option>
@@ -66,13 +66,13 @@
                     </select>
                 </div>
                 <div>
-                    </span><span id="selected-average">
+                    <span class="glyphicon glyphicon-info-sign" style="margin-right: 10px"></span><span id="selected-average"></span>
                 </div>
             </form>
         </script>
 	
         <script id="add-wizard-page4" type="text/template" data-title="Opsummering">
-            <span id="finish-post" class="finish-part"></span>til <span id="finish-interval" class="finish-part"></span> fra den <span id="finish-date" class="finish-part"></span> for <span id="finish-price" class="finish-part"></span> kr.
+            <span id="finish-post" class="finish-part"></span> til <span id="finish-interval" class="finish-part"></span> fra den <span id="finish-date" class="finish-part"></span> for <span id="finish-price" class="finish-part"></span> kr.
         </script>
         
         <h1 class="title">µBudget</h1>

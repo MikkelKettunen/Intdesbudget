@@ -81,6 +81,7 @@
         updateWizardPage(false);
     });
     
+
     $("#wizard-next").click(function() {
         updateWizardPage(true);
     });
@@ -140,10 +141,22 @@
         var selected = window.interface.expenses[select.selectedIndex];
         $("#selected-info").html(selected.explanation);
         
+        if (!selected.explanation)
+            $(".glyphicon-info-sign").hide();
+        else
+            $(".glyphicon-info-sign").show();
+        
         if (selected.postName === "Selvvalgt")
             $("#select-post-custom").show();
         else
             $("#select-post-custom").hide();
+    };
+    
+    window.interface.onKeyPress = function(event) {
+        if (event.which == 13) {
+            // Enter pressed
+            updateWizardPage(true);
+        }
     };
     
     window.interface.page1loaded = function() {
@@ -152,20 +165,25 @@
             var expense = window.interface.expenses[i];
             $("#select-post").append("<option>" + expense.postName + "</option>");
         }
-        $("#select-post").trigger("onchange");
-        
+
         if (window.interface.addPost.post) {
             if (!window.interface.addPost.post.custom) {
                 $("#select-post").val(window.interface.addPost.post.postName);
-                $("#selected-info").html(window.interface.addPost.post.explanation);
             } else {
                 $("#select-post-custom").show();
                 $("#select-post-custom").val(window.interface.addPost.post.postName);
                 // hardcoded.. :(
                 $("#select-post").val("Selvvalgt");
-                $("#selected-info").html(window.interface.addPost.post.explanation); 
             }
         }
+        
+        $("#select-post").trigger("onchange");
+        
+        // This function is called from the show.bs.modal event, but
+        // focusing will be removed as part of the modal launch.
+        // Ideally we use the shown.bs.modal event, but let's just use a workaround
+        // by focusing the select in 500 ms.
+        setTimeout(function() { $("#select-post").focus(); }, 500);
     };
     
     window.interface.page1finished = function() {
@@ -196,6 +214,8 @@
         if (window.interface.addPost.startDate) {
             date.datepicker("setDate", new Date(window.interface.addPost.startDate));
         } 
+        
+        $("#input-date").select().focus();
     };
     
     window.interface.page2finished = function() {        
@@ -204,10 +224,17 @@
     
     window.interface.page3loaded = function() {
         $("#selected-average").html(window.interface.addPost.post.average);
+        if (!window.interface.addPost.post.average)
+            $(".glyphicon-info-sign").hide();
+        else
+            $(".glyphicon-info-sign").show();
+        
         if (window.interface.addPost.amount) {
             $("#input-amount").val(window.interface.addPost.amount);
             $("#select-interval").val(window.interface.addPost.interval);
         }
+        
+        $("#input-amount").focus();
     };
     
     window.interface.page3finished = function() {        
@@ -237,6 +264,8 @@
 
         $("#finish-date").text(formatDate(paymentDate));
         $("#finish-price").text(window.interface.addPost.amount);
+        
+        $("#wizard-next").focus();
     };
     
     function formatDate(date) {
