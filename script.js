@@ -35,6 +35,7 @@
         if (!wizardPageExists(wizardPage + 1) && !previous) {
             addPost(window.interface.addPost);
             $("#wizard-modal").modal("hide");
+            $("#budget-empty-info").hide();
             return;
         }
         
@@ -57,7 +58,7 @@
             $("#wizard-next span").removeClass("glyphicon-ok glyphicon-circle-arrow-right").addClass("glyphicon-circle-arrow-right");
         }
         
-        // vi kan ikke gå tilbage hvis vi er på sidste side
+        // vi kan ikke gå tilbage hvis vi er på første side
         if (!wizardPageExists(wizardPage-1)) {
             $("#wizard-prev").hide();
         } else {
